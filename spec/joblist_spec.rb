@@ -7,19 +7,52 @@ describe JobList do
   let(:joblist) { JobList.new() }
 
   describe ".add" do
-    context "given an empty string" do
-      it "returns no jobs added" do
-        expect(joblist.add("")).to eql("No jobs added")
+    context "given an empty string and no existing jobs" do
+      it "returns existing empty joblist" do
+        expect(joblist.add("")).to eql("")
+      end
+    end
+  end
+
+  # TO DO: Test for empty string and some existing jobs
+
+  describe ".add" do
+    context "given 'a,b,c' and no existing jobs" do
+      it "returns new jobs" do
+        expect(joblist.add("a,b,c")).to eql("a,b,c")
       end
     end
   end
 
   describe ".add" do
-    context "given 'a,b'" do
-      it "returns new jobs" do
-        expect(joblist.add("a,b")).to eql("Jobs 'a,b' added")
+    context "given 'a,bc,c' and no existing jobs" do
+      it "returns new jobs with priorty on dependencies" do
+        expect(joblist.add("a,bc,c")).to eql("c,b,a")
       end
     end
   end
 
+  describe ".add" do
+    context "given 'a,bc,cf,da,eb,f' and no existing jobs" do
+      it "returns new jobs with priority on dependencies" do
+        expect(joblist.add("a,bc,cf,da,eb,f")).to eql("f,c,b,e,a,d")
+      end
+    end
+  end
+
+  describe ".add" do
+    context "given 'a,b,cc' where c is dependent on itself" do
+      it "returns an error stating jobs cannot be dependent on themselves" do
+        expect(joblist.add("a,b,cc")).to eql("Jobs cannot be dependent on themselves")
+      end
+    end
+  end
+
+  describe ".add" do
+    context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do
+      it "returns an error stating jobs cannot have circular dependencies" do
+        expect(joblist.add("a,bc,cf,da,e,fb")).to eql("Jobs cannot have circular dependencies")
+      end
+    end
+  end
 end

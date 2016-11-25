@@ -5,14 +5,17 @@ TO DO:
   3) DONE Create barebones Ruby files
   4) DONE Create spec for .add method
   5) DONE Break down requirements into tasks:
-      * Create specs for all examples in PDF
+      * DONE Create specs for all examples in PDF
       * Jobs with no dependencies should be sorted alphabetically
       * Jobs with dependencies must be correctly ordered relative them
       * Jobs with no dependencies should be prioritised lower than those with
       * Return error if job is dependent on itself
       * Return error if resulting joblist (after adding new) has circular dependencies
   6) Think about best data structure for joblist (jobs and dependencies)
+      * Ignore duplicates unless they have new dependencies
+      * Store dependencies per task
   7) Implement revised joblist data structure
+  8) 
 
 EXTRAS: Not specifically required but would be useful/logical additions
 

@@ -5,21 +5,23 @@ class JobList
   end
 
   def add(input)
-    if input == ""
-      "No jobs added"
-    else
+    if input != ""
       @jobs << (@jobs == "" ? input : ',' + input)
-      "Jobs '#{input}' added"
     end
+    @jobs
   end
 
   def check_format
-    # Check that inputted string is formatted correctly
+    # Check that input string is formatted correctly
 
   end
 
   def sort(s)
     # Split incoming string (ie. newly added jobs)
+  end
+
+  def to_array(s)
+
   end
 
   def show
