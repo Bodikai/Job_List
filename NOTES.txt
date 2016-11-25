@@ -1,0 +1,12 @@
+TO DO:
+
+  1) Create Git repository
+  2) Research TDD
+  3) Create barebones Ruby files
+  4) Create spec
+
+REMEMBER:
+
+  * To use IRB to test (and maybe even to use)
+
+  
