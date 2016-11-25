@@ -14,6 +14,11 @@ TO DO:
   6) Think about best data structure for joblist (jobs and dependencies)
   7) Implement revised joblist data structure
 
+EXTRAS: Not specifically required but would be useful/logical additions
+
+  1) Multiple dependencies. e.g. a => b,c (a dependent on b and c)
+  2) 
+
 
 REMEMBER:
 
