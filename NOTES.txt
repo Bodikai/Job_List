@@ -15,16 +15,21 @@ TO DO:
       * Ignore duplicates unless they have new dependencies
       * Store dependencies per task
   7) Implement revised joblist data structure
-  8) 
+  8) Method for checking input format before processing
 
 EXTRAS: Not specifically required but would be useful/logical additions
 
   1) Multiple dependencies. e.g. a => b,c (a dependent on b and c)
-  2) 
+  2) Check that input string is formatted correctly
 
 
 REMEMBER:
 
   * To use IRB to test (and maybe even to use)
+  * DON'T overcomplicate things. Just do what is required (for now)
 
-  
+EXERCISE NOTES:
+
+  * I need to improve at blocking out work and tackling/testing each chunk
+    separately.
+  * 
