@@ -1,9 +1,19 @@
 TO DO:
 
-  1) Create Git repository
-  2) Research TDD
-  3) Create barebones Ruby files
-  4) Create spec
+  1) DONE Create Git repository
+  2) DONE Research TDD
+  3) DONE Create barebones Ruby files
+  4) DONE Create spec for .add method
+  5) DONE Break down requirements into tasks:
+      * Create specs for all examples in PDF
+      * Jobs with no dependencies should be sorted alphabetically
+      * Jobs with dependencies must be correctly ordered relative them
+      * Jobs with no dependencies should be prioritised lower than those with
+      * Return error if job is dependent on itself
+      * Return error if resulting joblist (after adding new) has circular dependencies
+  6) Think about best data structure for joblist (jobs and dependencies)
+  7) Implement revised joblist data structure
+
 
 REMEMBER:
 
