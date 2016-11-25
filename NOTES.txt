@@ -7,7 +7,7 @@ TO DO:
   5) DONE Break down requirements into tasks:
       * DONE Create specs for all examples in PDF
       * Jobs with no dependencies should be sorted alphabetically
-      * Jobs with dependencies must be correctly ordered relative them
+      * Jobs with dependencies must be correctly ordered relative to them
       * Jobs with no dependencies should be prioritised lower than those with
       * Return error if job is dependent on itself
       * Return error if resulting joblist (after adding new) has circular dependencies

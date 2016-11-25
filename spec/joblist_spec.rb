@@ -25,6 +25,24 @@ describe JobList do
   end
 
   describe ".add" do
+    context "given 'ab' and no existing jobs" do
+      it "returns jobs ordered by dependency" do
+        expect(joblist.add("ab")).to eql("b,a")
+      end
+    end
+  end
+
+=begin
+
+  describe ".add" do
+    context "given 'b,c'a' (no dependencies) and no existing jobs" do
+      it "returns new jobs in alphabetic order" do
+        expect(joblist.add("b,c,a")).to eql("a,b,c")
+      end
+    end
+  end
+
+  describe ".add" do
     context "given 'a,bc,c' and no existing jobs" do
       it "returns new jobs with priorty on dependencies" do
         expect(joblist.add("a,bc,c")).to eql("c,b,a")
@@ -42,7 +60,7 @@ describe JobList do
 
   describe ".add" do
     context "given 'a,b,cc' where c is dependent on itself" do
-      it "returns an error stating jobs cannot be dependent on themselves" do
+      it "returns error stating jobs cannot be dependent on themselves" do
         expect(joblist.add("a,b,cc")).to eql("Jobs cannot be dependent on themselves")
       end
     end
@@ -50,9 +68,12 @@ describe JobList do
 
   describe ".add" do
     context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do
-      it "returns an error stating jobs cannot have circular dependencies" do
+      it "returns error stating jobs cannot have circular dependencies" do
         expect(joblist.add("a,bc,cf,da,e,fb")).to eql("Jobs cannot have circular dependencies")
       end
     end
   end
+
+=end
+
 end

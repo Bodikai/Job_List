@@ -13,7 +13,6 @@ class JobList
 
   def check_format
     # Check that input string is formatted correctly
-
   end
 
   def sort(s)
