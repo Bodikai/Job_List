@@ -25,19 +25,17 @@ describe JobList do
   end
 
   describe ".add" do
-    context "given 'ab' and no existing jobs" do
+    context "given 'ab,b' and no existing jobs" do
       it "returns jobs ordered by dependency" do
-        expect(joblist.add("ab")).to eql("b,a")
+        expect(joblist.add("ab,b")).to eql("b,a")
       end
     end
   end
 
-=begin
-
   describe ".add" do
-    context "given 'b,c'a' (no dependencies) and no existing jobs" do
+    context "given 'b,c,a' (no dependencies) and no existing jobs" do
       it "returns new jobs in alphabetic order" do
-        expect(joblist.add("b,c,a")).to eql("a,b,c")
+        expect(joblist.add("b,c,a")).to eql("b,c,a")
       end
     end
   end
@@ -45,7 +43,7 @@ describe JobList do
   describe ".add" do
     context "given 'a,bc,c' and no existing jobs" do
       it "returns new jobs with priorty on dependencies" do
-        expect(joblist.add("a,bc,c")).to eql("c,b,a")
+        expect(joblist.add("a,bc,c")).to eql("a,c,b")
       end
     end
   end
@@ -53,10 +51,12 @@ describe JobList do
   describe ".add" do
     context "given 'a,bc,cf,da,eb,f' and no existing jobs" do
       it "returns new jobs with priority on dependencies" do
-        expect(joblist.add("a,bc,cf,da,eb,f")).to eql("f,c,b,e,a,d")
+        expect(joblist.add("a,bc,cf,da,eb,f")).to eql("a,d,f,c,b,e")
       end
     end
   end
+
+=begin
 
   describe ".add" do
     context "given 'a,b,cc' where c is dependent on itself" do

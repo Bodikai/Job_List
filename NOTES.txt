@@ -6,21 +6,26 @@ TO DO:
   4) DONE Create spec for .add method
   5) DONE Break down requirements into tasks:
       * DONE Create specs for all examples in PDF
-      * Jobs with no dependencies should be sorted alphabetically
       * Jobs with dependencies must be correctly ordered relative to them
-      * Jobs with no dependencies should be prioritised lower than those with
       * Return error if job is dependent on itself
       * Return error if resulting joblist (after adding new) has circular dependencies
-  6) Think about best data structure for joblist (jobs and dependencies)
-      * Ignore duplicates unless they have new dependencies
-      * Store dependencies per task
-  7) Implement revised joblist data structure
-  8) Method for checking input format before processing
+  6) DONE Think about best data structure for joblist (jobs and dependencies)
+  7) DONE Implement revised joblist data structure which stores dependencies
+     per job
+  8) Update data structure so that dependencies are stored in HASH but order
+     is stored in ARRAY
 
 EXTRAS: Not specifically required but would be useful/logical additions
 
-  1) Multiple dependencies. e.g. a => b,c (a dependent on b and c)
-  2) Check that input string is formatted correctly
+  * Jobs should be prioritised as follows (from high to low):
+    * Jobs with the longest dependency chain
+    * Jobs with the smallest dependency chain
+    * Jobs with no dependencies
+    * Jobs with no dependencies should be sorted alphabetically
+  * Ignore duplicates unless they have new dependencies
+  * Multiple dependencies. e.g. a => b,c (a dependent on b and c). Consider
+    storing ARRAY in the hash value.
+  * Check that input string is formatted correctly
 
 
 REMEMBER:
