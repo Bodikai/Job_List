@@ -6,13 +6,13 @@ TO DO:
   4) DONE Create spec for .add method
   5) DONE Break down requirements into tasks:
       * DONE Create specs for all examples in PDF
-      * Jobs with dependencies must be correctly ordered relative to them
+      * DONE Jobs with dependencies must be correctly ordered relative to them
       * Return error if job is dependent on itself
       * Return error if resulting joblist (after adding new) has circular dependencies
   6) DONE Think about best data structure for joblist (jobs and dependencies)
   7) DONE Implement revised joblist data structure which stores dependencies
      per job
-  8) Update data structure so that dependencies are stored in HASH but order
+  8) DONE Update data structure so that dependencies are stored in HASH but order
      is stored in ARRAY
 
 EXTRAS: Not specifically required but would be useful/logical additions
