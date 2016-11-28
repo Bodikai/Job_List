@@ -14,6 +14,8 @@ TO DO:
      per job
   8) DONE Update data structure so that dependencies are stored in HASH but order
      is stored in ARRAY
+  9) Consider configuring tests to allow non-dependent jobs to be anywhere in
+     resulting string (using pattern matching?)
 
 EXTRAS: Not specifically required but would be useful/logical additions
 
