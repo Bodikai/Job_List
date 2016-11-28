@@ -56,8 +56,6 @@ describe JobList do
     end
   end
 
-=begin
-
   describe ".add" do
     context "given 'a,b,cc' where c is dependent on itself" do
       it "returns error stating jobs cannot be dependent on themselves" do
@@ -65,6 +63,8 @@ describe JobList do
       end
     end
   end
+
+=begin
 
   describe ".add" do
     context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do

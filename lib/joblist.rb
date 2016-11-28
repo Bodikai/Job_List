@@ -8,18 +8,28 @@ class JobList
   def add(input)
     if input != ""
       @dependencies = parse(input)
+      if contains_self_dependency?(@dependencies)
+        @dependencies = Hash.new
+        return "Jobs cannot be dependent on themselves"
+      else
+        @jobs = prioritise(@dependencies)
+      end
     end
-    @jobs = prioritise(@dependencies)
     show
+  end
+
+  def contains_self_dependency?(hsh)
+    hsh.each do |k, v|
+      if k == v
+        return true
+      end
+    end
+    false
   end
 
   def parse(str)
     str.split(',').each { |j| @dependencies[j.chr] = j.slice(1,j.length) }
     @dependencies
-  end
-
-  def show
-    @jobs.join(',')
   end
 
   def prioritise(hsh)
@@ -41,6 +51,10 @@ class JobList
       end
     end
     arr
+  end
+
+  def show
+    @jobs.join(',')
   end
 
 end
