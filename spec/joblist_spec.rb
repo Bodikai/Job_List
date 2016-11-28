@@ -17,8 +17,8 @@ describe JobList do
   # TO DO: Test for empty string and some existing jobs
 
   describe ".add" do
-    context "given 'a,b,c' and no existing jobs" do
-      it "returns new jobs" do
+    context "given 'a,b,c' with no dependencies and no existing jobs" do
+      it "returns new jobs in the original order" do
         expect(joblist.add("a,b,c")).to eql("a,b,c")
       end
     end
