@@ -64,8 +64,6 @@ describe JobList do
     end
   end
 
-=begin
-
   describe ".add" do
     context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do
       it "returns error stating jobs cannot have circular dependencies" do
@@ -73,7 +71,5 @@ describe JobList do
       end
     end
   end
-
-=end
 
 end

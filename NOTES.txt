@@ -8,12 +8,12 @@ TO DO:
       * DONE Create specs for all examples in PDF
       * DONE Jobs with dependencies must be correctly ordered relative to them
       * DONE Return error if job is dependent on itself
-      * Return error if resulting joblist (after adding new) has circular dependencies
+      * DONE Return error if resulting joblist (after adding new) has circular dependencies
   6) DONE Think about best data structure for joblist (jobs and dependencies)
   7) DONE Implement revised joblist data structure which stores dependencies
      per job
-  8) DONE Update data structure so that dependencies are stored in HASH but order
-     is stored in ARRAY
+  8) DONE Update data structure so that dependencies are stored in HASH but
+     order is stored in ARRAY
   9) Consider configuring tests to allow non-dependent jobs to be anywhere in
      resulting string (using pattern matching?)
 

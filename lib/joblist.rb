@@ -11,11 +11,33 @@ class JobList
       if contains_self_dependency?(@dependencies)
         @dependencies = Hash.new
         return "Jobs cannot be dependent on themselves"
+      elsif contains_circular_dependency?(@dependencies)
+        @dependencies = Hash.new
+        return "Jobs cannot have circular dependencies"
       else
         @jobs = prioritise(@dependencies)
       end
     end
     show
+  end
+
+  def contains_circular_dependency?(hsh)
+    hsh.each do |k, v|
+      if v != ""
+        next_dependency = v
+        until next_dependency == ""
+          if hsh.has_value?(next_dependency)
+            next_dependency = hsh.fetch(next_dependency)
+            if next_dependency == k
+              return true
+            end
+          else
+            next_dependency == ""
+          end
+        end
+      end
+    end
+    false
   end
 
   def contains_self_dependency?(hsh)
