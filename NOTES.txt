@@ -16,6 +16,9 @@ TO DO:
      order is stored in ARRAY
   9) Consider configuring tests to allow non-dependent jobs to be anywhere in
      resulting string (using pattern matching?)
+ 10) Research 'singular responsibility' and think about how to restructure
+     with this in mind
+ 11) Think about how to simplify tests so that each one only tests one thing
 
 EXTRAS: Not specifically required but would be useful/logical additions
 
