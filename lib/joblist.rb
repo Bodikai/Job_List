@@ -16,7 +16,7 @@ class JobList
         @jobs = prioritise(@dependencies)
       end
     end
-    show(@jobs)
+    jobs_to_string(@jobs)
   end
 
   def contains_circular_dependency?(hsh)
@@ -71,7 +71,7 @@ class JobList
     arr
   end
 
-  def show(arr)
+  def jobs_to_string(arr)
     arr.join(',')
   end
 

@@ -14,11 +14,11 @@ TO DO:
      per job
   8) DONE Update data structure so that dependencies are stored in HASH but
      order is stored in ARRAY
-  9) Consider configuring tests to allow non-dependent jobs to be anywhere in
-     resulting string (using pattern matching?)
- 10) Research 'singular responsibility' and think about how to restructure
+  9) Research 'singular responsibility' and think about how to restructure
      with this in mind
- 11) Think about how to simplify tests so that each one only tests one thing
+ 10) DONE Think about how to simplify tests so that each one only tests one
+     thing. UPDATE: They were already pretty simple. Clarified the text for
+     a few and removed one or two redundant tests.
 
 EXTRAS: Not specifically required but would be useful/logical additions
 
@@ -30,7 +30,10 @@ EXTRAS: Not specifically required but would be useful/logical additions
   * Ignore duplicates unless they have new dependencies
   * Multiple dependencies. e.g. a => b,c (a dependent on b and c). Consider
     storing ARRAY in the hash value.
-  * Check that input string is formatted correctly
+  * Check that input string is formatted correctly (ie. does not contain any
+    non-alphabetic or uppercase characters)
+  * Consider configuring tests to allow non-dependent jobs to be anywhere in
+    resulting string (using pattern matching?)
 
 
 REMEMBER:
