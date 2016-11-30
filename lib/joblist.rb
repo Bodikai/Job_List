@@ -9,31 +9,26 @@ class JobList
     if input != ""
       @dependencies = parse(input)
       if contains_self_dependency?(@dependencies)
-        @dependencies = Hash.new
         return "Jobs cannot be dependent on themselves"
       elsif contains_circular_dependency?(@dependencies)
-        @dependencies = Hash.new
         return "Jobs cannot have circular dependencies"
       else
         @jobs = prioritise(@dependencies)
       end
     end
-    show
+    show(@jobs)
   end
 
   def contains_circular_dependency?(hsh)
     hsh.each do |k, v|
-      if v != ""
-        next_dependency = v
-        until next_dependency == ""
-          if hsh.has_value?(next_dependency)
-            next_dependency = hsh.fetch(next_dependency)
-            if next_dependency == k
-              return true
-            end
-          else
-            next_dependency == ""
+      until v == ""
+        if hsh.has_value?(v)
+          v = hsh.fetch(v)
+          if v == k
+            return true
           end
+        else
+          v == ""
         end
       end
     end
@@ -50,8 +45,9 @@ class JobList
   end
 
   def parse(str)
-    str.split(',').each { |j| @dependencies[j.chr] = j.slice(1,j.length) }
-    @dependencies
+    dependencies = Hash.new
+    str.split(',').each { |j| dependencies[j.chr] = j.slice(1,j.length) }
+    dependencies
   end
 
   def prioritise(hsh)
@@ -75,8 +71,8 @@ class JobList
     arr
   end
 
-  def show
-    @jobs.join(',')
+  def show(arr)
+    arr.join(',')
   end
 
 end
