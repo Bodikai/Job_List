@@ -40,13 +40,13 @@ describe JobList do
 
     context "given 'a,b,cc' where 'c' is dependent on itself" do
       it "raises self-dependency error" do
-        expect{joblist.add("a,b,cc")}.to raise_error(SelfDependencyError, "Jobs cannot be dependent on themselves") 
+        expect(joblist.add("a,b,cc")).to eql("Jobs cannot be dependent on themselves") 
       end
     end
 
     context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do
       it "returns circular dependency error" do
-        expect{joblist.add("a,bc,cf,da,e,fb")}.to raise_error(CircularDependencyError, "Jobs cannot have circular dependencies")
+        expect(joblist.add("a,bc,cf,da,e,fb")).to eql("Jobs cannot have circular dependencies")
       end
     end
 

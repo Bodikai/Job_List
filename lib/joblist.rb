@@ -1,30 +1,17 @@
-class SelfDependencyError < StandardError
-end
-
-class SelfDependencyValidator
-
-  def validate_dependencies(hsh)
-    hsh.each do |k, v|
-      if k == v
-        raise SelfDependencyError, "Jobs cannot be dependent on themselves"
-      end
-    end
-  end
-
-end
-
 class CircularDependencyError < StandardError
+  def message
+    "Jobs cannot have circular dependencies"
+  end
 end
 
 class CircularDependencyValidator
-
   def validate_dependencies(hsh)
     hsh.each do |k, v|
       until v == ""
         if hsh.has_value?(v)
           v = hsh.fetch(v)
           if v == k
-            raise CircularDependencyError, "Jobs cannot have circular dependencies"
+            raise CircularDependencyError
           end
         else
           v == ""
@@ -32,11 +19,25 @@ class CircularDependencyValidator
       end
     end
   end
+end
 
+class SelfDependencyError < StandardError
+  def message
+    "Jobs cannot be dependent on themselves"
+  end
+end
+
+class SelfDependencyValidator
+  def validate_dependencies(hsh)
+    hsh.each do |k, v|
+      if k == v
+        raise SelfDependencyError
+      end
+    end
+  end
 end
 
 class JobList
-
   def initialize
     @dependencies = Hash.new
     @jobs = []
@@ -44,52 +45,52 @@ class JobList
 
   def add(input)
     if input != ""
-      @dependencies = parse(input)
-      
-      self_dependency_check = SelfDependencyValidator.new
-      self_dependency_check.validate_dependencies(@dependencies)
-
-      circular_dependency_check = CircularDependencyValidator.new
-      circular_dependency_check.validate_dependencies(@dependencies)
-
-      @jobs = prioritise(@dependencies)
-
+      parse_input(input)
+      self_dependency_validator.validate_dependencies(@dependencies)
+      circular_dependency_validator.validate_dependencies(@dependencies)
+      prioritise_jobs
     end
-    jobs_to_string(@jobs)
+    show_jobs
+  rescue CircularDependencyError, SelfDependencyError => error
+    return error.message
   end
 
-  def contains_circular_dependency?(hsh)
+  # Extract everything in ADD to new class Job_Parser (parse, dependencies, prioritise)
+  # New class for parsing
+  # New class for prio
+
+  def self_dependency_validator
+    SelfDependencyValidator.new
   end
 
-  def parse(str)
-    dependencies = Hash.new
-    str.split(',').each { |j| dependencies[j.chr] = j.slice(1,j.length) }
-    dependencies
+  def circular_dependency_validator
+    CircularDependencyValidator.new
   end
 
-  def prioritise(hsh)
-    arr = []
-    hsh.each do |k, v| # for each KEY
+  def parse_input(str)
+    str.split(',').each { |j| @dependencies[j.chr] = j.slice(1,j.length) }
+  end
+
+  def prioritise_jobs
+    @dependencies.each do |k, v| # for each KEY
       if v != "" # if HAS parent
-        if arr.index(v) == nil # if parent does NOT EXIST
-          if arr.index(k) == nil # if dependent does NOT EXIST
-            arr << v # append parent
-            arr << k # append dependent
+        if @jobs.index(v) == nil # if parent does NOT EXIST
+          if @jobs.index(k) == nil # if dependent does NOT EXIST
+            @jobs << v << k # append parent then dependent
           else
-            arr.insert(arr.index(k), v) # insert parent
+            @jobs.insert(@jobs.index(k), v) # insert parent before dependent
           end
         else
-          arr.insert(arr.index(v)+1, k) # insert dependent AFTER parent
+          @jobs.insert(@jobs.index(v)+1, k) # insert dependent AFTER parent
         end
-      elsif arr.index(k) == nil
-        arr << k # append INDEPENDENT job
+      elsif @jobs.index(k) == nil
+        @jobs << k # append INDEPENDENT job
       end
     end
-    arr
   end
 
-  def jobs_to_string(arr)
-    arr.join(',')
+  def show_jobs
+    @jobs.join(',')
   end
 
 end
