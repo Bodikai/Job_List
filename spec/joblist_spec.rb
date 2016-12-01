@@ -46,7 +46,7 @@ describe JobList do
 
     context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do
       it "returns circular dependency error" do
-        expect(joblist.add("a,bc,cf,da,e,fb")).to eql("Jobs cannot have circular dependencies")
+        expect{joblist.add("a,bc,cf,da,e,fb")}.to raise_error(CircularDependencyError, "Jobs cannot have circular dependencies")
       end
     end
 

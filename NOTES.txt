@@ -31,12 +31,13 @@ Re-factor with SINGLE RESPONSIBILITY in mind:
   * Raise errors rather than return errors as strings.
 
 01) ADD method: Currently doing 6 things. Split & simplify ...
-    * Call SELF DEPENDENCY method (in new class) rather than do check here.
-    * Call CIRCULAR DEPENDENCY method (in new class) rather than do check.
+    DONE * Call SELF DEPENDENCY method (in new class)
+    DONE * Call CIRCULAR DEPENDENCY method (in new class)
+    * 
 
-02) ERROR classes (self & circular):
-    * Raise error instead of returning true
-    * don't bother returning false
+02) DONE ERROR classes (self & circular):
+    DONE * Raise error instead of returning true
+    DONE * don't bother returning false
 
 03) Simplify & clean up code:
     * Replace IF..THEN statements that use validations with the validations
