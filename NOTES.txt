@@ -1,24 +1,47 @@
 TO DO:
+------
 
-  1) DONE Create Git repository
-  2) DONE Research TDD
-  3) DONE Create barebones Ruby files
-  4) DONE Create spec for .add method
-  5) DONE Break down requirements into tasks:
-      * DONE Create specs for all examples in PDF
-      * DONE Jobs with dependencies must be correctly ordered relative to them
-      * DONE Return error if job is dependent on itself
-      * DONE Return error if resulting joblist (after adding new) has circular dependencies
-  6) DONE Think about best data structure for joblist (jobs and dependencies)
-  7) DONE Implement revised joblist data structure which stores dependencies
-     per job
-  8) DONE Update data structure so that dependencies are stored in HASH but
-     order is stored in ARRAY
-  9) Research 'singular responsibility' and think about how to restructure
-     with this in mind
- 10) DONE Think about how to simplify tests so that each one only tests one
-     thing. UPDATE: They were already pretty simple. Clarified the text for
-     a few and removed one or two redundant tests.
+PHASE 1
+
+1) DONE Create Git repository
+2) DONE Research TDD
+3) DONE Create barebones Ruby files
+4) DONE Create spec for .add method
+5) DONE Break down requirements into tasks:
+    * DONE Create specs for all examples in PDF
+    * DONE Jobs with dependencies must be correctly ordered relative to them
+    * DONE Return error if job is dependent on itself
+    * DONE Return error if resulting joblist (after adding new) has circular dependencies
+6) DONE Think about best data structure for joblist (jobs and dependencies)
+7) DONE Implement revised joblist data structure which stores dependencies
+   per job
+8) DONE Update data structure so that dependencies are stored in HASH but
+   order is stored in ARRAY
+9) DONE Research 'singular responsibility' and think about how to restructure
+   with this in mind. Researched bu didn't action anything. Speak to Paul.
+10) DONE Think about how to simplify tests so that each one only tests one
+   thing. UPDATE: They were already pretty simple. Clarified the text for
+   a few and removed one or two redundant tests.
+
+PHASE 2
+
+Re-factor with SINGLE RESPONSIBILITY in mind:
+  * Any method that is doing more than one thing should be split up into
+    separate classes (each with a method for doing that one thing).
+  * Raise errors rather than return errors as strings.
+
+01) ADD method: Currently doing 6 things. Split & simplify ...
+    * Call SELF DEPENDENCY method (in new class) rather than do check here.
+    * Call CIRCULAR DEPENDENCY method (in new class) rather than do check.
+
+02) ERROR classes (self & circular):
+    * Raise error instead of returning true
+    * don't bother returning false
+
+03) Simplify & clean up code:
+    * Replace IF..THEN statements that use validations with the validations
+      on their own (test this first)
+
 
 EXTRAS: Not specifically required but would be useful/logical additions
 

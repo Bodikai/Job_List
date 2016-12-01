@@ -1,3 +1,18 @@
+class SelfDependencyError < StandardError
+end
+
+class Self_Dependency_Validator
+
+  def validate_dependencies(hsh)
+    hsh.each do |k, v|
+      if k == v
+        raise SelfDependencyError, "Jobs cannot be dependent on themselves"
+      end
+    end
+  end
+
+end
+
 class JobList
 
   def initialize
@@ -8,9 +23,9 @@ class JobList
   def add(input)
     if input != ""
       @dependencies = parse(input)
-      if contains_self_dependency?(@dependencies)
-        return "Jobs cannot be dependent on themselves"
-      elsif contains_circular_dependency?(@dependencies)
+      self_dependency_check = Self_Dependency_Validator.new
+      self_dependency_check.validate_dependencies(@dependencies)
+      if contains_circular_dependency?(@dependencies)
         return "Jobs cannot have circular dependencies"
       else
         @jobs = prioritise(@dependencies)
@@ -30,15 +45,6 @@ class JobList
         else
           v == ""
         end
-      end
-    end
-    false
-  end
-
-  def contains_self_dependency?(hsh)
-    hsh.each do |k, v|
-      if k == v
-        return true
       end
     end
     false

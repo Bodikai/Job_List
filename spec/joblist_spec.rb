@@ -39,8 +39,8 @@ describe JobList do
     end
 
     context "given 'a,b,cc' where 'c' is dependent on itself" do
-      it "returns self-dependency error" do
-        expect(joblist.add("a,b,cc")).to eql("Jobs cannot be dependent on themselves")
+      it "raises self-dependency error" do
+        expect{joblist.add("a,b,cc")}.to raise_error(SelfDependencyError, "Jobs cannot be dependent on themselves") 
       end
     end
 
