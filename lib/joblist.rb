@@ -5,7 +5,7 @@ class CircularDependencyError < StandardError
 end
 
 class CircularDependencyValidator
-  def validate_dependencies(hsh)
+  def validate(hsh)
     hsh.each do |k, v|
       until v == ""
         if hsh.has_value?(v)
@@ -28,13 +28,21 @@ class SelfDependencyError < StandardError
 end
 
 class SelfDependencyValidator
-  def validate_dependencies(hsh)
+  def validate(hsh)
     hsh.each do |k, v|
       if k == v
         raise SelfDependencyError
       end
     end
   end
+end
+
+class JobParser
+
+end
+
+class JobPrioritiser
+
 end
 
 class JobList
@@ -46,8 +54,8 @@ class JobList
   def add(input)
     if input != ""
       parse_input(input)
-      self_dependency_validator.validate_dependencies(@dependencies)
-      circular_dependency_validator.validate_dependencies(@dependencies)
+      self_dependency_validator.validate(@dependencies)
+      circular_dependency_validator.validate(@dependencies)
       prioritise_jobs
     end
     show_jobs
@@ -55,7 +63,7 @@ class JobList
     return error.message
   end
 
-  # Extract everything in ADD to new class Job_Parser (parse, dependencies, prioritise)
+  # Extract everything in ADD method apart from SHOW to new class Job_Parser
   # New class for parsing
   # New class for prio
 
