@@ -39,52 +39,21 @@ end
 
 class JobParser
 
-end
-
-class JobPrioritiser
-
-end
-
-class JobInput
-
-end
-
-class JobList
   def initialize
     @dependencies = Hash.new
-    @jobs = []
-  end
-
-  def add(input)
-    if input != ""
-      parse_input(input)
-      self_dependency_validator.validate(@dependencies)
-      circular_dependency_validator.validate(@dependencies)
-      prioritise_jobs
-    end
-    show_jobs
-  rescue CircularDependencyError, SelfDependencyError => error
-    return error.message
-  end
-
-  # Extract everything in ADD method apart from SHOW to new class Job_Parser
-  # New class for parsing
-  # New class for prio
-
-  def self_dependency_validator
-    SelfDependencyValidator.new
-  end
-
-  def circular_dependency_validator
-    CircularDependencyValidator.new
   end
 
   def parse_input(str)
     str.split(',').each { |j| @dependencies[j.chr] = j.slice(1,j.length) }
   end
+  @dependencies
+end
 
-  def prioritise_jobs
-    @dependencies.each do |k, v| # for each KEY
+class JobPrioritiser
+
+  def prioritise_jobs(hsh)
+    @jobs = []
+    hsh.each do |k, v| # for each KEY
       if v != "" # if HAS parent
         if @jobs.index(v) == nil # if parent does NOT EXIST
           if @jobs.index(k) == nil # if dependent does NOT EXIST
@@ -99,6 +68,62 @@ class JobList
         @jobs << k # append INDEPENDENT job
       end
     end
+    @jobs
+  end
+end
+
+class JobSorter
+  def initialize
+    @dependencies = Hash.new
+    @jobs = []
+  end
+
+  def sort(input)
+    if input != ""
+      @dependencies = parser.parse_input(input)
+      self_dependency_validator.validate(@dependencies)
+      circular_dependency_validator.validate(@dependencies)
+      @jobs = prioritiser.prioritise_jobs(@dependencies)
+    end
+    @jobs
+  end
+
+  def parser
+    JobParser.new
+  end
+
+  def prioritiser
+    JobPrioritiser.new
+  end
+
+  def self_dependency_validator
+    SelfDependencyValidator.new
+  end
+
+  def circular_dependency_validator
+    CircularDependencyValidator.new
+  end
+end
+
+class JobList
+  def initialize
+    #@dependencies = Hash.new
+    @jobs = []
+  end
+
+  def add(input)
+    @jobs = sorter.sort(input)
+    show_jobs
+  rescue CircularDependencyError, SelfDependencyError => error
+    return error.message
+  end
+
+  # Extract everything in ADD method apart from SHOW to new class Job_Parser
+  # New class for parsing
+  # New class for prio
+
+  def sorter
+    JobSorter.new
   end
 
   def show_jobs
