@@ -45,8 +45,8 @@ class JobParser
 
   def parse_input(str)
     str.split(',').each { |j| @dependencies[j.chr] = j.slice(1,j.length) }
+    @dependencies
   end
-  @dependencies
 end
 
 class JobPrioritiser
