@@ -45,6 +45,10 @@ class JobPrioritiser
 
 end
 
+class JobInput
+
+end
+
 class JobList
   def initialize
     @dependencies = Hash.new

@@ -43,6 +43,11 @@ Re-factor with SINGLE RESPONSIBILITY in mind:
     * Replace IF..THEN statements that use validations with the validations
       on their own (test this first)
 
+04) Implement SR changes requested by Paul:
+    * New class for JOB SORTER (includes most of current ADD method)
+    * New class for PARSE
+    * New class for PRIORITISE
+
 
 EXTRAS: Not specifically required but would be useful/logical additions
 
