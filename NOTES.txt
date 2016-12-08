@@ -39,14 +39,10 @@ Re-factor with SINGLE RESPONSIBILITY in mind:
     DONE * Raise error instead of returning true
     DONE * don't bother returning false
 
-03) Simplify & clean up code:
-    * Replace IF..THEN statements that use validations with the validations
-      on their own (test this first)
-
-04) Implement SR changes requested by Paul:
-    * New class for JOB SORTER (includes most of current ADD method)
-    * New class for PARSE
-    * New class for PRIORITISE
+03) DONE Implement SR changes requested by Paul:
+    * DONE New class for JOB SORTER (includes most of current ADD method)
+    * DONE New class for PARSE
+    * DONE New class for PRIORITISE
 
 
 EXTRAS: Not specifically required but would be useful/logical additions

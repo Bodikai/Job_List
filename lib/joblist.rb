@@ -38,54 +38,83 @@ class SelfDependencyValidator
 end
 
 class JobParser
-
-  def initialize
-    @dependencies = Hash.new
-  end
-
-  def parse_input(str)
-    str.split(',').each { |j| @dependencies[j.chr] = j.slice(1,j.length) }
-    @dependencies
+  def parse(str)
+    dependencies = Hash.new
+    str.split(',').each { |j| dependencies[j.chr] = j.slice(1,j.length) }
+    dependencies
   end
 end
 
 class JobPrioritiser
-
-  def prioritise_jobs(hsh)
+  def prioritise(hsh)
     @jobs = []
-    hsh.each do |k, v| # for each KEY
-      if v != "" # if HAS parent
-        if @jobs.index(v) == nil # if parent does NOT EXIST
-          if @jobs.index(k) == nil # if dependent does NOT EXIST
-            @jobs << v << k # append parent then dependent
-          else
-            @jobs.insert(@jobs.index(k), v) # insert parent before dependent
-          end
-        else
-          @jobs.insert(@jobs.index(v)+1, k) # insert dependent AFTER parent
-        end
-      elsif @jobs.index(k) == nil
-        @jobs << k # append INDEPENDENT job
-      end
+    hsh.each do |k, v|
+      add_both_if_new(k, v)
+      add_new_parent_if_dependent_exists(k, v)
+      add_new_dependent_if_parent_exists(k, v)
+      add_new_independent(k, v)
     end
     @jobs
+  end
+
+  def add_both_if_new(k, v)
+    if v != "" && @jobs.index(v) == nil && @jobs.index(k) == nil
+      @jobs << v << k
+    end
+  end
+
+  def add_new_parent_if_dependent_exists(k, v)
+    if v != "" && @jobs.index(v) == nil && @jobs.index(k) != nil
+      @jobs.insert(@jobs.index(k), v)
+    end
+  end
+
+  def add_new_dependent_if_parent_exists(k, v)
+    if v != "" && @jobs.index(v) != nil && @jobs.index(k) == nil
+      @jobs.insert(@jobs.index(v)+1, k)
+    end
+  end
+
+  def add_new_independent(k, v)
+    if v == "" && @jobs.index(k) == nil
+      @jobs << k
+    end
   end
 end
 
-class JobSorter
-  def initialize
-    @dependencies = Hash.new
-    @jobs = []
-  end
+# class JobPrioritiser
+#   def prioritise(hsh)
+#     @jobs = []
+#     hsh.each do |k, v| # for each KEY
+#       if v != "" # if HAS parent
+#         if @jobs.index(v) == nil # if parent does NOT EXIST
+#           if @jobs.index(k) == nil # if dependent does NOT EXIST
+#             @jobs << v << k # append parent then dependent
+#           else
+#             @jobs.insert(@jobs.index(k), v) # insert parent before dependent
+#           end
+#         else
+#           @jobs.insert(@jobs.index(v)+1, k) # insert dependent AFTER parent
+#         end
+#       elsif @jobs.index(k) == nil
+#         @jobs << k # append INDEPENDENT job
+#       end
+#     end
+#     @jobs
+#   end
+# end
 
+class JobSorter
   def sort(input)
+    dependencies = Hash.new
+    jobs = []
     if input != ""
-      @dependencies = parser.parse_input(input)
-      self_dependency_validator.validate(@dependencies)
-      circular_dependency_validator.validate(@dependencies)
-      @jobs = prioritiser.prioritise_jobs(@dependencies)
+      dependencies = parser.parse(input)
+      self_dependency_validator.validate(dependencies)
+      circular_dependency_validator.validate(dependencies)
+      jobs = prioritiser.prioritise(dependencies)
     end
-    @jobs
+    jobs
   end
 
   def parser
@@ -106,28 +135,17 @@ class JobSorter
 end
 
 class JobList
-  def initialize
-    #@dependencies = Hash.new
-    @jobs = []
-  end
-
   def add(input)
-    @jobs = sorter.sort(input)
-    show_jobs
+    show_jobs(sorter.sort(input))
   rescue CircularDependencyError, SelfDependencyError => error
     return error.message
   end
-
-  # Extract everything in ADD method apart from SHOW to new class Job_Parser
-  # New class for parsing
-  # New class for prio
 
   def sorter
     JobSorter.new
   end
 
-  def show_jobs
-    @jobs.join(',')
+  def show_jobs(jobs)
+    jobs.join(',')
   end
-
 end
