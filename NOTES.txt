@@ -39,18 +39,19 @@ Re-factor with SINGLE RESPONSIBILITY in mind:
     DONE * don't bother returning false
 
 03) DONE Implement SR changes requested by Paul:
-    * DONE New class for JOB SORTER (includes most of current ADD method)
-    * DONE New class for PARSE
-    * DONE New class for PRIORITISE
+    DONE * New class for JOB SORTER (includes most of current ADD method)
+    DONE * New class for PARSE
+    DONE * New class for PRIORITISE
 
 PHASE 3 (Based on Paul's feedback 22/12/2016)
 
-01) Create initialize method for vars and another method to show for these classes:
-    * JobPrioritiser
-    * JobSorter
+01) DONE Create initialize method for vars and another method to show for these
+    classes:
+    DONE * JobPrioritiser
+    DONE * JobSorter
 02) Write comprehensive specs for each class and the important methods in each
-    * For example in JobPrioritiser, in method prioritise just check that methods are
-      being called, but do make sure to have specs for each method individually.
+    * For example in JobPrioritiser, in method prioritise just check that
+      methods are being called, but do make sure to have specs for each method individually.
 
 
 EXTRAS: Not specifically required but would be useful/logical additions

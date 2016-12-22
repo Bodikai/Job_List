@@ -46,8 +46,8 @@ class JobParser
 end
 
 class JobPrioritiser
-  def initialize
-    @jobs = []
+  def initialize(jobs = [])
+    @jobs = jobs
   end
 
   def add_both_if_new(k, v)
@@ -91,7 +91,6 @@ class JobPrioritiser
 end
 
 class JobSorter
-
   def initialize
     @dependencies = Hash.new
     @jobs = []
