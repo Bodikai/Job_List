@@ -2,92 +2,36 @@
 
 require "joblist"
 
-describe JobList do
 
-  let(:joblist) { JobList.new }
 
-  describe ".add" do
+describe JobParser do
 
-    context "given an empty string" do
-      it "returns existing empty joblist" do
-        expect(joblist.add("")).to eql("")
-      end
-    end
+  let(:parser) { JobParser.new }
 
-    context "given only 'a'" do
-      it "returns only the one original job" do
-        expect(joblist.add("a")).to eql("a")
-      end
-    end
-
-    context "given 'a,b,c' with no dependencies" do
-      it "returns new jobs in the original order" do
-        expect(joblist.add("a,b,c")).to eql("a,b,c")
-      end
-    end
-
-    context "given 'a,bc,c'" do
-      it "returns new jobs with dependent jobs in the correct order" do
-        expect(joblist.add("a,bc,c")).to eql("a,c,b")
-      end
-    end
-
-    context "given 'a,bc,cf,da,eb,f'" do
-      it "returns new jobs with dependent jobs in the correct order" do
-        expect(joblist.add("a,bc,cf,da,eb,f")).to eql("a,d,f,c,b,e")
-      end
-    end
-
-    context "given 'a,b,cc' where 'c' is dependent on itself" do
-      it "raises self-dependency error" do
-        expect(joblist.add("a,b,cc")).to eql("Jobs cannot be dependent on themselves") 
-      end
-    end
-
-    context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do
-      it "returns circular dependency error" do
-        expect(joblist.add("a,bc,cf,da,e,fb")).to eql("Jobs cannot have circular dependencies")
-      end
-    end
-  end
-
-  describe ".show_jobs" do
-
-    context "given an array of jobs" do
-      it "returns the jobs in a string separated by a comma" do
-        expect(joblist.show_jobs(["a","b","c"])).to eql("a,b,c")
-      end
-    end
-
-    context "given an empty array (of jobs)" do
-      it "returns an empty string" do
-        expect(joblist.show_jobs([])).to eql("")
-      end
-    end
-
-  end
-end
-
-describe JobSorter do
-
-  let(:sorter) { JobSorter.new }
-
-  describe ".sort" do
-
-    context "given a string containing a list of jobs" do
-      it "returns the prioritised jobs in an array" do
-        expect(sorter.sort("ab,b,c")).to eql(["b","a","c"])
-      end
-    end
+  describe ".parse" do
 
     context "given an empty string" do
-      it "returns an empty array" do
-        expect(sorter.sort("")).to eql([])
+      it "returns an empty hash" do
+        expect(parser.parse("")).to eql(Hash.new)
+      end
+    end
+
+    context "given a properly formatted string containing pair of dependent jobs" do
+      it "returns a hash containing the jobs in the string" do
+        expect(parser.parse("ab")).to eql({"a" => "b"})
+      end
+    end
+
+    context "given a properly formatted string containing several jobs" do
+      it "returns a hash containing the jobs in the string" do
+        expect(parser.parse("ab,c,d")).to eql({"a" => "b","c" => "", "d" => ""})
       end
     end
 
   end
+
 end
+
 
 describe JobPrioritiser do
 
@@ -256,4 +200,91 @@ describe JobPrioritiser do
 
   end
 
+end
+
+describe JobSorter do
+
+  let(:sorter) { JobSorter.new }
+
+  describe ".sort" do
+
+    context "given a string containing a list of jobs" do
+      it "returns the prioritised jobs in an array" do
+        expect(sorter.sort("ab,b,c")).to eql(["b","a","c"])
+      end
+    end
+
+    context "given an empty string" do
+      it "returns an empty array" do
+        expect(sorter.sort("")).to eql([])
+      end
+    end
+
+  end
+end
+
+describe JobList do
+
+  let(:joblist) { JobList.new }
+
+  describe ".add" do
+
+    context "given an empty string" do
+      it "returns existing empty joblist" do
+        expect(joblist.add("")).to eql("")
+      end
+    end
+
+    context "given only 'a'" do
+      it "returns only the one original job" do
+        expect(joblist.add("a")).to eql("a")
+      end
+    end
+
+    context "given 'a,b,c' with no dependencies" do
+      it "returns new jobs in the original order" do
+        expect(joblist.add("a,b,c")).to eql("a,b,c")
+      end
+    end
+
+    context "given 'a,bc,c'" do
+      it "returns new jobs with dependent jobs in the correct order" do
+        expect(joblist.add("a,bc,c")).to eql("a,c,b")
+      end
+    end
+
+    context "given 'a,bc,cf,da,eb,f'" do
+      it "returns new jobs with dependent jobs in the correct order" do
+        expect(joblist.add("a,bc,cf,da,eb,f")).to eql("a,d,f,c,b,e")
+      end
+    end
+
+    context "given 'a,b,cc' where 'c' is dependent on itself" do
+      it "raises self-dependency error" do
+        expect(joblist.add("a,b,cc")).to eql("Jobs cannot be dependent on themselves") 
+      end
+    end
+
+    context "given 'a,bc,cf,da,e,fb' where b, c and f are in a circular dependency" do
+      it "returns circular dependency error" do
+        expect(joblist.add("a,bc,cf,da,e,fb")).to eql("Jobs cannot have circular dependencies")
+      end
+    end
+  end
+
+  describe ".show_jobs" do
+
+    context "given an array of jobs" do
+      it "returns the jobs in a string separated by a comma" do
+        expect(joblist.show_jobs(["a","b","c"])).to eql("a,b,c")
+      end
+    end
+
+    context "given an empty array (of jobs)" do
+      it "returns an empty string" do
+        expect(joblist.show_jobs([])).to eql("")
+      end
+    end
+
+  end
 end

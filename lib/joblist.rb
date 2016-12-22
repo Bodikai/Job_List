@@ -38,10 +38,13 @@ class SelfDependencyValidator
 end
 
 class JobParser
+  def initialize
+    @dependencies = Hash.new
+  end
+
   def parse(str)
-    dependencies = Hash.new
-    str.split(',').each { |j| dependencies[j.chr] = j.slice(1,j.length) }
-    dependencies
+    str.split(',').each { |j| @dependencies[j.chr] = j.slice(1,j.length) }
+    @dependencies
   end
 end
 
