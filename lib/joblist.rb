@@ -82,28 +82,6 @@ class JobPrioritiser
   end
 end
 
-# class JobPrioritiser
-#   def prioritise(hsh)
-#     @jobs = []
-#     hsh.each do |k, v| # for each KEY
-#       if v != "" # if HAS parent
-#         if @jobs.index(v) == nil # if parent does NOT EXIST
-#           if @jobs.index(k) == nil # if dependent does NOT EXIST
-#             @jobs << v << k # append parent then dependent
-#           else
-#             @jobs.insert(@jobs.index(k), v) # insert parent before dependent
-#           end
-#         else
-#           @jobs.insert(@jobs.index(v)+1, k) # insert dependent AFTER parent
-#         end
-#       elsif @jobs.index(k) == nil
-#         @jobs << k # append INDEPENDENT job
-#       end
-#     end
-#     @jobs
-#   end
-# end
-
 class JobSorter
   def sort(input)
     dependencies = Hash.new
