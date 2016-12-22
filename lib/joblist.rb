@@ -18,6 +18,7 @@ class CircularDependencyValidator
         end
       end
     end
+    return nil
   end
 end
 
@@ -34,6 +35,7 @@ class SelfDependencyValidator
         raise SelfDependencyError
       end
     end
+    return nil
   end
 end
 
