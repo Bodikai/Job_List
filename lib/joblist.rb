@@ -46,6 +46,9 @@ class JobParser
 end
 
 class JobPrioritiser
+
+# method for init @jobs and another for show @jobs
+
   def prioritise(hsh)
     @jobs = []
     hsh.each do |k, v|
@@ -83,6 +86,9 @@ class JobPrioritiser
 end
 
 class JobSorter
+
+# method for init dependencies and another for show jobs
+
   def sort(input)
     dependencies = Hash.new
     jobs = []
