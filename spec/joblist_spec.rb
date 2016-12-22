@@ -53,7 +53,3 @@ describe JobList do
   end
 
 end
-
-# Need tests for each class and possibly each method.
-# For example in JobPrioritiser, in method prioritise just check that methods are
-# being called, but do make sure to have specs for each method individually.

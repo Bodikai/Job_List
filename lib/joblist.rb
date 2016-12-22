@@ -46,18 +46,8 @@ class JobParser
 end
 
 class JobPrioritiser
-
-# method for init @jobs and another for show @jobs
-
-  def prioritise(hsh)
+  def initialize
     @jobs = []
-    hsh.each do |k, v|
-      add_both_if_new(k, v)
-      add_new_parent_if_dependent_exists(k, v)
-      add_new_dependent_if_parent_exists(k, v)
-      add_new_independent(k, v)
-    end
-    @jobs
   end
 
   def add_both_if_new(k, v)
@@ -83,22 +73,32 @@ class JobPrioritiser
       @jobs << k
     end
   end
+
+  def prioritise(hsh)
+    hsh.each do |k, v|
+      add_both_if_new(k, v)
+      add_new_parent_if_dependent_exists(k, v)
+      add_new_dependent_if_parent_exists(k, v)
+      add_new_independent(k, v)
+    end
+    show_jobs
+  end
+
+  def show_jobs
+    @jobs
+  end
+
 end
 
 class JobSorter
 
-# method for init dependencies and another for show jobs
+  def initialize
+    @dependencies = Hash.new
+    @jobs = []
+  end
 
-  def sort(input)
-    dependencies = Hash.new
-    jobs = []
-    if input != ""
-      dependencies = parser.parse(input)
-      self_dependency_validator.validate(dependencies)
-      circular_dependency_validator.validate(dependencies)
-      jobs = prioritiser.prioritise(dependencies)
-    end
-    jobs
+  def circular_dependency_validator
+    CircularDependencyValidator.new
   end
 
   def parser
@@ -113,8 +113,18 @@ class JobSorter
     SelfDependencyValidator.new
   end
 
-  def circular_dependency_validator
-    CircularDependencyValidator.new
+  def show_jobs
+    @jobs
+  end
+
+  def sort(input)
+    if input != ""
+      @dependencies = parser.parse(input)
+      self_dependency_validator.validate(@dependencies)
+      circular_dependency_validator.validate(@dependencies)
+      @jobs = prioritiser.prioritise(@dependencies)
+    end
+    show_jobs
   end
 end
 
