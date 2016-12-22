@@ -131,6 +131,26 @@ describe JobPrioritiser do
       end
     end
 
+    context "given new parent and new dependent" do
+      it "returns nil" do
+        expect(prioritiser.add_new_parent_if_dependent_exists("a","b")).to eql(nil)
+      end
+    end
+
+    context "given existing parent and existing dependent" do
+      it "returns nil" do
+        prioritiser = JobPrioritiser.new(["a, b"])
+        expect(prioritiser.add_new_parent_if_dependent_exists("a","b")).to eql(nil)
+      end
+    end
+
+    context "given new parent and existing dependent" do
+      it "returns new parent added before dependent in existing array" do
+        prioritiser = JobPrioritiser.new(["a"])
+        expect(prioritiser.add_new_parent_if_dependent_exists("a","b")).to eql(["b","a"])
+      end
+    end
+    
   end
 
 end
