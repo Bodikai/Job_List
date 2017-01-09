@@ -22,20 +22,19 @@ class CircularDependencyValidator
   end
 end
 
-class SelfDependencyError < StandardError
-  def message
-    "Jobs cannot be dependent on themselves"
+class JobList
+  def add(input)
+    show_jobs(sorter.sort(input))
+  rescue CircularDependencyError, SelfDependencyError => error
+    return error.message
   end
-end
 
-class SelfDependencyValidator
-  def validate(hsh)
-    hsh.each do |k, v|
-      if k == v
-        raise SelfDependencyError
-      end
-    end
-    return nil
+  def sorter
+    JobSorter.new
+  end
+
+  def show_jobs(jobs)
+    jobs.join(',')
   end
 end
 
@@ -92,7 +91,6 @@ class JobPrioritiser
   def show_jobs
     @jobs
   end
-
 end
 
 class JobSorter
@@ -132,18 +130,19 @@ class JobSorter
   end
 end
 
-class JobList
-  def add(input)
-    show_jobs(sorter.sort(input))
-  rescue CircularDependencyError, SelfDependencyError => error
-    return error.message
+class SelfDependencyError < StandardError
+  def message
+    "Jobs cannot be dependent on themselves"
   end
+end
 
-  def sorter
-    JobSorter.new
-  end
-
-  def show_jobs(jobs)
-    jobs.join(',')
+class SelfDependencyValidator
+  def validate(hsh)
+    hsh.each do |k, v|
+      if k == v
+        raise SelfDependencyError
+      end
+    end
+    return nil
   end
 end
